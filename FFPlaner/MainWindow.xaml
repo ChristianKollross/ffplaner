@@ -1,0 +1,226 @@
+﻿<Window x:Class="FFPlaner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FFPlaner"
+        mc:Ignorable="d"
+        Title="FF-Planer Feuerwehr-Übungsplaner" Height="700" Width="1200">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Import">
+                <MenuItem Header="Personen" Name="ImportPersonenMenu" Click="ImportPersonenMenu_Click"/>
+                <MenuItem Header="Feuerwehrdienste" Name="ImportFeuerwehrdiensteMenu" Click="ImportFeuerwehrdiensteMenu_Click"/>
+                <MenuItem Header="Module" Name="ImportModuleMenu" Click="ImportModuleMenu_Click"/>
+            </MenuItem>
+            <MenuItem Header="Daten löschen" IsEnabled="False" Visibility="Hidden">
+                <MenuItem Header="Feuerwehrdienste" Name="DeleteFeuerwehrdiensteMenu" IsEnabled="False"/>
+                <MenuItem Header="Personen" Name="DeletePersonenMenu" IsEnabled="False"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Name="TabsPanel" DockPanel.Dock="Bottom">
+            <TabItem Header="Dienste" Name="DiensteTab" Selector.Selected="DiensteTab_Selected">
+                <DataGrid Name="UebungenGrid" ItemsSource="{Binding Feuerwehrdienste}" AutoGenerateColumns="False" CanUserAddRows="False"  MouseDoubleClick="UebungenGrid_MouseDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
+                        <DataGridTextColumn Header="Modul 1" Binding="{Binding Modul1.Bezeichnung}" />
+                        <DataGridTextColumn Header="Modul 2" Binding="{Binding Modul2.Bezeichnung}" />
+                        <DataGridTextColumn Header="Modul 3" Binding="{Binding Modul3.Bezeichnung}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Anwesenheiten" Name="AnwesenheitTab" IsEnabled="False">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Name="AnwesenheitListeLabel" DockPanel.Dock="Top">Keine Übung gewählt</Label>
+
+                    <GroupBox Grid.Row="1" Grid.Column="0" Header="Modul 1">
+                        <DockPanel>
+                            <ComboBox Name="Modul1ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul1ComboBox_SelectionChanged" />
+                            <Label Name="Modul1CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Modul 2">
+                        <DockPanel>
+                            <ComboBox Name="Modul2ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul2ComboBox_SelectionChanged" />
+                            <Label Name="Modul2CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="2" Header="Modul 3">
+                        <DockPanel>
+                            <ComboBox Name="Modul3ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul3ComboBox_SelectionChanged" />
+                            <Button Name="Modul3LeerenButton" Click="Modul3LeerenButton_Click">Leeren</Button>
+                            <Label Name="Modul3CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Grid.Column="3" Header="Aktualisierung">
+                        <DockPanel>
+                            <Button Name="RefreshButton" Height="25" IsEnabled="False" Click="RefreshButton_Click">Aktualisieren</Button>
+                            <Label DockPanel.Dock="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Auto</Label>
+                            <CheckBox Name="AutoRefreshCheckbox" DockPanel.Dock="Right" IsThreeState="False" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="20" IsChecked="True" Click="AutoRefreshCheckbox_Click" />
+                        </DockPanel>
+                    </GroupBox>
+                    <Button Grid.Row="1" Grid.Column="4" Name="AutoAssign" Height="25" Click="AutoAssignButton_Click">Automatisch zuweisen</Button>
+
+
+                    <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Name="AnwesenheitGrid" DockPanel.Dock="Bottom" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nachname" Binding="{Binding Person.Nachname}" />
+                            <DataGridTextColumn Header="Vorname" Binding="{Binding Person.Vorname}" />
+                            <DataGridTemplateColumn Header="Zugesagt">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAngemeldetTrue" GroupName="{Binding ButtonGroupAngemeldet}" IsChecked="{Binding IsAngemeldetTrue, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAngemeldetTrue_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="?">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAngemeldetNull" GroupName="{Binding ButtonGroupAngemeldet}" IsChecked="{Binding IsAngemeldetNull, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAngemeldetNull_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Abgesagt">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAngemeldetFalse" GroupName="{Binding ButtonGroupAngemeldet}" IsChecked="{Binding IsAngemeldetFalse, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAngemeldetFalse_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Anwesend">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAnwesendTrue" GroupName="{Binding ButtonGroupAnwesend}" IsChecked="{Binding IsAnwesendTrue, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAnwesendTrue_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="?">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAnwesendNull" GroupName="{Binding ButtonGroupAnwesend}" IsChecked="{Binding IsAnwesendNull, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAnwesendNull_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Abwesend">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonAnwesendFalse" GroupName="{Binding ButtonGroupAnwesend}" IsChecked="{Binding IsAnwesendFalse, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAnwesendFalse_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Modul 1">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonModul1" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul1_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Modul 2">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonModul2" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul2_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Modul 3">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Name="RadioButtonModul3" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul3_Click" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Bedarf 1" Binding="{Binding Bedarf1}" />
+                            <DataGridTextColumn Header="Bedarf 2" Binding="{Binding Bedarf2}" />
+                            <DataGridTextColumn Header="Bedarf 2" Binding="{Binding Bedarf3}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Personen" Name="PersonenTab">
+                <DataGrid Name="PersonenGrid" AutoGenerateColumns="False" CellEditEnding="PersonenGrid_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}" />
+                        <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}" />
+                        <DataGridTextColumn Header="Eintrittsdatum" Binding="{Binding Eintrittsdatum, StringFormat=\{0:dd.MM.yyyy\}}" />
+                        <DataGridTemplateColumn Header="Aktiv">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="PersonAktivCheckbox" IsChecked="{Binding IsAktiv}" IsThreeState="False" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PersonAktivCheckbox_Click" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Atemschutz">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="PersonAtemschutzCheckbox" IsChecked="{Binding IsAtemschutz}" IsThreeState="False" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PersonAtemschutzCheckbox_Click" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Maschinist">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="PersonMaschinistCheckbox" IsChecked="{Binding IsMaschinist}" IsThreeState="False" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PersonMaschinistCheckbox_Click" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Löschen" Name="DeletePerson" Click="DeletePerson_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Historie" Name="HistorieTab">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <ComboBox Name="PersonHistorieComboBox" Grid.Column="0" Grid.Row="0" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.Personen}" DisplayMemberPath="Name" Width="200" VerticalContentAlignment="Center" SelectionChanged="PersonHistorieComboBox_SelectionChanged" />
+
+                    <DataGrid Name="HistorieGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding Feuerwehrdienst.Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
+                            <DataGridTextColumn Header="Anwesend" Binding="{Binding IsAnwesendTrue}" />
+                            <DataGridTextColumn Header="Modul-Nr." Binding="{Binding Modul.Nummer}" />
+                            <DataGridTextColumn Header="Modul" Binding="{Binding Modul.Bezeichnung}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Module" Name="ModulTab">
+                <DataGrid Name="ModulGrid" AutoGenerateColumns="False" CellEditEnding="ModulGrid_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nr." Binding="{Binding Nummer}" Width="30" />
+                        <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Bezeichnung}" />
+                        <DataGridTextColumn Header="∑ Tage letzte Teilnahme" Visibility="Hidden" />
+                        <DataGridTextColumn Header="Noch nie teilgenommen" Visibility="Hidden" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Info" Name="InfoTab">
+                <TextBox Name="AppInfos" MaxLines="1000" IsReadOnly="True"/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
