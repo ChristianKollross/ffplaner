@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FFPlaner.Entities
 {
@@ -14,5 +15,12 @@ namespace FFPlaner.Entities
 
         [Required]
         public int Nummer { get; set; }
+
+        [NotMapped]
+        public string? NummerUndBezeichnung
+        {
+            get { return "(" + Nummer + ") " + Bezeichnung; }
+            set { }
+        }
     }
 }

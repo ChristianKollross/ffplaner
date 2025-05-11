@@ -159,7 +159,7 @@ namespace FFPlaner
                     if (moduleZuletztGenommen.ContainsKey(entry.Key))
                     {
                         double tage = (CurrentFeuerwehrdienst.Datum - moduleZuletztGenommen[entry.Key]).TotalDays;
-                        anwesenheit.setBedarf(i, entry.Key.Bezeichnung + " [" + Math.Round(tage) + "]");
+                        anwesenheit.setBedarf(i, entry.Key.NummerUndBezeichnung + " [" + Math.Round(tage) + "]");
                         i++;
                     }
                 }
@@ -178,7 +178,7 @@ namespace FFPlaner
                     break;
                 }
 
-                empfohleneModule += entry.Key.Bezeichnung + " [" + entry.Value + "]  \t";
+                empfohleneModule += entry.Key.NummerUndBezeichnung + " [" + entry.Value + "]  \t";
                 i--;
             }
 

@@ -23,9 +23,9 @@
                 <DataGrid Name="UebungenGrid" ItemsSource="{Binding Feuerwehrdienste}" AutoGenerateColumns="False" CanUserAddRows="False"  MouseDoubleClick="UebungenGrid_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Datum" Binding="{Binding Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
-                        <DataGridTextColumn Header="Modul 1" Binding="{Binding Modul1.Bezeichnung}" />
-                        <DataGridTextColumn Header="Modul 2" Binding="{Binding Modul2.Bezeichnung}" />
-                        <DataGridTextColumn Header="Modul 3" Binding="{Binding Modul3.Bezeichnung}" />
+                        <DataGridTextColumn Header="Modul 1" Binding="{Binding Modul1.NummerUndBezeichnung}" />
+                        <DataGridTextColumn Header="Modul 2" Binding="{Binding Modul2.NummerUndBezeichnung}" />
+                        <DataGridTextColumn Header="Modul 3" Binding="{Binding Modul3.NummerUndBezeichnung}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -49,19 +49,19 @@
 
                     <GroupBox Grid.Row="1" Grid.Column="0" Header="Modul 1">
                         <DockPanel>
-                            <ComboBox Name="Modul1ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul1ComboBox_SelectionChanged" />
+                            <ComboBox Name="Modul1ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="NummerUndBezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul1ComboBox_SelectionChanged" />
                             <Label Name="Modul1CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Grid.Column="1" Header="Modul 2">
                         <DockPanel>
-                            <ComboBox Name="Modul2ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul2ComboBox_SelectionChanged" />
+                            <ComboBox Name="Modul2ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="NummerUndBezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul2ComboBox_SelectionChanged" />
                             <Label Name="Modul2CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Grid.Column="2" Header="Modul 3">
                         <DockPanel>
-                            <ComboBox Name="Modul3ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="Bezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul3ComboBox_SelectionChanged" />
+                            <ComboBox Name="Modul3ComboBox" DockPanel.Dock="Left" ItemsSource="{Binding Path=DataContext.AlleModule}" DisplayMemberPath="NummerUndBezeichnung" Width="Auto" MinWidth="200" VerticalContentAlignment="Center" SelectionChanged="Modul3ComboBox_SelectionChanged" />
                             <Button Name="Modul3LeerenButton" Click="Modul3LeerenButton_Click">Leeren</Button>
                             <Label Name="Modul3CountLabel" DockPanel.Dock="Right" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                         </DockPanel>
