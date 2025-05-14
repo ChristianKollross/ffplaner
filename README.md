@@ -1,6 +1,8 @@
 # FFPlaner - Feuerwehr-Übungsplaner
 
-## Windows-Desktopanwendung zur Planung von Übungsmodulen in der Freiwilligen Feuerwehr
+**Windows-Desktopanwendung zur Planung von Übungsmodulen in der Freiwilligen Feuerwehr**
+
+*WICHTIG: Aktuell werden noch keine Datenbank-Migrationen angeboten, Daten müssen also ggf. mehrfach eingegeben werden!*
 
 ## Anleitung
 

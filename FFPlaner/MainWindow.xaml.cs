@@ -11,7 +11,7 @@ namespace FFPlaner
 {
     public partial class MainWindow : Window
     {
-        private const string AppVersion = "0.2.1 alpha";
+        private const string AppVersion = "0.2.2 alpha";
         private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
         private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -655,7 +655,7 @@ namespace FFPlaner
             switch (fieldName)
             {
                 case "Nummer":
-                    modul.Nummer = int.Parse(newText.Trim());
+                    modul.Nummer = newText.Trim();
                     break;
                 case "Bezeichnung":
                     modul.Bezeichnung = newText.Trim();
@@ -714,7 +714,8 @@ namespace FFPlaner
             infoText += $"\n\nDatenbankpfad: \t\t{db.DbPath}";
             infoText += $"\nBackup-Pfad: \t\t{DbAccess.DataContext.GetBackupsDirectoryPath()}";
             infoText += $"\nStandard-Import-Pfad: \t{GetImportsBasePath()}";
-            infoText += $"\n\nDateiformat Personen: \t\tEine Person pro Zeile, inkl. Eintrittsdatum: Max;Mustermann;2023-12-21";
+            infoText += $"\n\nWICHTIG: Die CSV-Dateien müssen UTF-8-codiert sein. In Notepad++ (kostenlos) geht dies über das Menü Codierung -> Konvertiere zu UTF-8.";
+            infoText += $"\nDateiformat Personen: \t\tEine Person pro Zeile, inkl. Eintrittsdatum: Max;Mustermann;2023-12-21";
             infoText += $"\nDateiformat für Feuerwehrdienste: \tEin Datum pro Zeile, im Format 2025-12-31";
             infoText += $"\nDateiformat für Module: \t\tEin Module (Nummer und Name) pro Zeile: 42;Den Sinn des Lebens finden";
             AppInfos.Text = infoText;
@@ -724,7 +725,7 @@ namespace FFPlaner
         #region Importfunktionen
         private void ImportPersonenMenu_Click(object sender, RoutedEventArgs e)
         {
-            string? filename = AskForImportFile("Personen importieren");
+            string? filename = AskForImportFile("Personen importieren (UTF-8-Encoding, Format: Max;Mustermann;2025-12-31)");
 
             if (filename == null)
             {
@@ -739,7 +740,7 @@ namespace FFPlaner
 
         private void ImportFeuerwehrdiensteMenu_Click(object sender, RoutedEventArgs e)
         {
-            string? filename = AskForImportFile("Feuerwehrdienste importieren");
+            string? filename = AskForImportFile("Feuerwehrdienste importieren (UTF-8-Encoding, Format: 2025-12-13)");
 
             if (filename == null)
             {
@@ -753,7 +754,7 @@ namespace FFPlaner
 
         private void ImportModuleMenu_Click(object sender, RoutedEventArgs e)
         {
-            string? filename = AskForImportFile("Module importieren");
+            string? filename = AskForImportFile("Module importieren (UTF-8-Encoding, Format: M07;Modulbezeichnung)");
 
             if (filename == null)
             {

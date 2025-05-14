@@ -246,14 +246,14 @@ namespace FFPlaner.DbAccess
                         return;
                     }
 
-                    var existierendePassendeModule = Module.Where(m => m.Nummer == int.Parse(fields[0])).Count();
+                    var existierendePassendeModule = Module.Where(m => m.Nummer == fields[0].Trim()).Count();
 
                     if (existierendePassendeModule > 0)
                     {
                         continue;
                     }
 
-                    Modul modul = new Modul { Nummer = int.Parse(fields[0]), Bezeichnung = fields[1].Trim() };
+                    Modul modul = new Modul { Nummer = fields[0].Trim(), Bezeichnung = fields[1].Trim() };
 
                     Add(modul);
                 }

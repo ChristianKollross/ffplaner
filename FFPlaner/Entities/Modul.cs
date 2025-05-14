@@ -14,7 +14,8 @@ namespace FFPlaner.Entities
         public string Bezeichnung { get; set; } = string.Empty;
 
         [Required]
-        public int Nummer { get; set; }
+        [StringLength(10)]
+        public string Nummer { get; set; } = string.Empty;
 
         [NotMapped]
         public string? NummerUndBezeichnung
