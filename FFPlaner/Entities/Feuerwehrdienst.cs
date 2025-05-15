@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FFPlaner.DbAccess;
 
 namespace FFPlaner.Entities
 {
@@ -75,9 +76,27 @@ namespace FFPlaner.Entities
         }
 
         [NotMapped]
-        public string? Statistik
+        public string? StatistikZusagen
         {
-            get { return "Zusagen: " + Anwesenheiten.Where(a => a.IsAngemeldet == true).Count() + " Anwesend: " + Anwesenheiten.Where(a => a.IsAnwesend == true).Count(); }
+            get {
+                int anzahlAngemeldet = Anwesenheiten.Where(a => a.IsAngemeldet == true).Count();
+                double prozentAngemeldet = DataContext.AnzahlAktivePersonen == 0 ? 0 : double.Round(anzahlAngemeldet * 100 / (double)DataContext.AnzahlAktivePersonen);
+
+                return $"{anzahlAngemeldet}/{DataContext.AnzahlAktivePersonen} ({prozentAngemeldet}%)"; 
+            }
+            set { }
+        }
+
+        [NotMapped]
+        public string? StatistikAnwesenheiten
+        {
+            get
+            {
+                int anzahlAnwesend = Anwesenheiten.Where(a => a.IsAnwesend == true).Count();
+                double prozentAnwesend = DataContext.AnzahlAktivePersonen == 0 ? 0 : double.Round(anzahlAnwesend * 100 / (double)DataContext.AnzahlAktivePersonen);
+
+                return $"{anzahlAnwesend}/{DataContext.AnzahlAktivePersonen} ({prozentAnwesend}%)";
+            }
             set { }
         }
     }

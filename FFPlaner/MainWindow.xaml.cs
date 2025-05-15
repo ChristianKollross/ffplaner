@@ -6,12 +6,13 @@ using System.Windows.Input;
 
 using FFPlaner.DbAccess;
 using FFPlaner.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FFPlaner
 {
     public partial class MainWindow : Window
     {
-        private const string AppVersion = "0.2.3 alpha";
+        private const string AppVersion = "0.2.4 alpha";
         private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
         private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -33,9 +34,16 @@ namespace FFPlaner
 
             UpdateAppInfoTab();
             LoadPersonTab();
-            LoadFeuerwehrdienstTab();
             LoadHistorieTab();
             LoadModulTab();
+
+            List<Feuerwehrdienst> dienste = db.Feuerwehrdienste.ToList();
+
+            if (dienste.Count > 0 && dienste.First() != null)
+            {
+                CurrentFeuerwehrdienst = dienste.First();
+                LoadAnwesenheitTab();
+            }
         }
 
         private void SetWindowSize()
@@ -353,6 +361,7 @@ namespace FFPlaner
             person.IsAktiv = checkbox.IsChecked == true;
 
             db.SaveChanges();
+            db.UpdateAnzahlAktivePersonen();
         }
 
         private void PersonAtemschutzCheckbox_Click(object sender, RoutedEventArgs e)

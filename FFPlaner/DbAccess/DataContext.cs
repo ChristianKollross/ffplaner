@@ -35,6 +35,8 @@ namespace FFPlaner.DbAccess
 
         public string DbPath { get; }
 
+        public static int AnzahlAktivePersonen = 0;
+
         public DataContext()
         {
             DbPath = GetDatabaseFilePath();
@@ -59,6 +61,8 @@ namespace FFPlaner.DbAccess
 
             BackupDatabase();
             RunNecessaryMigrations();
+
+            UpdateAnzahlAktivePersonen();
         }
 
         private void RunNecessaryMigrations()
@@ -148,7 +152,6 @@ namespace FFPlaner.DbAccess
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath};Pooling=False");
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -313,6 +316,11 @@ namespace FFPlaner.DbAccess
 
                 SaveChanges();
             }
+        }
+
+        public void UpdateAnzahlAktivePersonen()
+        {
+            AnzahlAktivePersonen = Personen.Where(p => p.IsAktiv == true).Count();
         }
     }
 }

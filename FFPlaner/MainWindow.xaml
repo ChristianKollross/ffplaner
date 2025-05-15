@@ -23,10 +23,11 @@
                 <DataGrid Name="UebungenGrid" ItemsSource="{Binding Feuerwehrdienste}" AutoGenerateColumns="False" CanUserAddRows="False"  MouseDoubleClick="UebungenGrid_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Datum" Binding="{Binding Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
+                        <DataGridTextColumn Header="Zusagen" Binding="{Binding StatistikZusagen}" />
+                        <DataGridTextColumn Header="Anwesenheiten" Binding="{Binding StatistikAnwesenheiten}" />
                         <DataGridTextColumn Header="Modul 1" Binding="{Binding Modul1.NummerUndBezeichnung}" />
                         <DataGridTextColumn Header="Modul 2" Binding="{Binding Modul2.NummerUndBezeichnung}" />
                         <DataGridTextColumn Header="Modul 3" Binding="{Binding Modul3.NummerUndBezeichnung}" />
-                        <DataGridTextColumn Header="Statistik" Binding="{Binding Statistik}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
