@@ -11,7 +11,7 @@ namespace FFPlaner
 {
     public partial class MainWindow : Window
     {
-        private const string AppVersion = "0.2.2 alpha";
+        private const string AppVersion = "0.2.3 alpha";
         private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
         private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.

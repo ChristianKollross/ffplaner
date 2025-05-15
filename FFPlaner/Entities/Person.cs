@@ -11,6 +11,8 @@ namespace FFPlaner.Entities
         [Required]
         public int Id { get; set; }
 
+        public ICollection<Anwesenheit> Anwesenheiten { get; } = new List<Anwesenheit>();
+
         [Required]
         [StringLength(100)]
         public string Vorname { get; set; } = string.Empty;
@@ -33,6 +35,13 @@ namespace FFPlaner.Entities
         public string? Name
         {
             get { return Nachname + ", " + Vorname; }
+            set { }
+        }
+
+        [NotMapped]
+        public string? Statistik
+        {
+            get { return "Zusagen: " + Anwesenheiten.Where(a => a.IsAngemeldet == true).Count() + " Anwesend: " + Anwesenheiten.Where(a => a.IsAnwesend == true).Count(); }
             set { }
         }
     }

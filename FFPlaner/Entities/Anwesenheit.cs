@@ -10,7 +10,13 @@ namespace FFPlaner.Entities
         public int Id { get; set; }
 
         [Required]
+        public int? FeuerwehrdienstId { get; set; }
+
+        [Required]
         public Feuerwehrdienst Feuerwehrdienst { get; set; }
+
+        [Required]
+        public int? PersonId { get; set; }
 
         [Required]
         public Person Person { get; set; }

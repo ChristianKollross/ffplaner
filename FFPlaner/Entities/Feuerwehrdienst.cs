@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FFPlaner.Entities
 {
@@ -11,6 +12,8 @@ namespace FFPlaner.Entities
         [Required]
         [StringLength(100)]
         public DateTime Datum { get; set; }
+
+        public ICollection<Anwesenheit> Anwesenheiten { get; } = new List<Anwesenheit>();
 
         [Required]
         public bool IsAbgesagt { get; set; } = false;
@@ -69,6 +72,13 @@ namespace FFPlaner.Entities
             }
 
             return list;
+        }
+
+        [NotMapped]
+        public string? Statistik
+        {
+            get { return "Zusagen: " + Anwesenheiten.Where(a => a.IsAngemeldet == true).Count() + " Anwesend: " + Anwesenheiten.Where(a => a.IsAnwesend == true).Count(); }
+            set { }
         }
     }
 }

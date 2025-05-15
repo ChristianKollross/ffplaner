@@ -26,6 +26,7 @@
                         <DataGridTextColumn Header="Modul 1" Binding="{Binding Modul1.NummerUndBezeichnung}" />
                         <DataGridTextColumn Header="Modul 2" Binding="{Binding Modul2.NummerUndBezeichnung}" />
                         <DataGridTextColumn Header="Modul 3" Binding="{Binding Modul3.NummerUndBezeichnung}" />
+                        <DataGridTextColumn Header="Statistik" Binding="{Binding Statistik}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -177,6 +178,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Statistik" Binding="{Binding Statistik}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>

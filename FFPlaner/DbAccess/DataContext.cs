@@ -149,6 +149,22 @@ namespace FFPlaner.DbAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath};Pooling=False");
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Feuerwehrdienst>()
+                .HasMany(e => e.Anwesenheiten)
+                .WithOne(e => e.Feuerwehrdienst)
+                .HasForeignKey(e => e.FeuerwehrdienstId)
+                .IsRequired(true);
+
+            modelBuilder.Entity<Person>()
+                .HasMany(e => e.Anwesenheiten)
+                .WithOne(e => e.Person)
+                .HasForeignKey(e => e.PersonId)
+                .IsRequired(true);
+        }
+
         public void SetMetainformation(string key, string value)
         {
             Metainformation? metainformation = Metainformationen.FirstOrDefault(m => m.Key == key);
