@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FFPlaner.DbAccess.Migrations
+﻿namespace FFPlaner.DbAccess.Migrations
 {
     class MigrationToV2 : AbstractMigration
     {
@@ -20,9 +14,25 @@ namespace FFPlaner.DbAccess.Migrations
 
         public override string getMigrationSQL()
         {
-            string sql = "";
+            string tableName = "Anwesenheiten";
+            string isModulTypeDescription = "INTEGER NOT NULL DEFAULT 0";
+
+            string sql = generateAddColumnSql(tableName, "IsModul1", isModulTypeDescription);
+            sql += generateAddColumnSql(tableName, "IsModul2", isModulTypeDescription);
+            sql += generateAddColumnSql(tableName, "IsModul3", isModulTypeDescription);
+
+            sql += GenerateMigrationSql(1);
+            sql += GenerateMigrationSql(2);
+            sql += GenerateMigrationSql(3);
+
+            sql += "ALTER TABLE Anwesenheiten DROP COLUMN ModulNummer;";
 
             return sql;
+        }
+
+        private string GenerateMigrationSql(int modulNummer)
+        {
+            return $"UPDATE Anwesenheiten SET IsModul{modulNummer} = 0; UPDATE Anwesenheiten SET IsModul{modulNummer} = 1 WHERE ModulNummer == {modulNummer};";
         }
     }
 }

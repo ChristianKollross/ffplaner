@@ -11,7 +11,7 @@ namespace FFPlaner.DbAccess
     public class DataContext : DbContext
     {
         private const string DataDir = "FFPlaner";
-        private const int DbVersion = 1;
+        public const int DbVersion = 2;
 
         public const string DateTimeFormat = "yyyy-MM-dd hh:mm:ss";
         private const char CsvFieldSeparator = ';';

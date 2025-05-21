@@ -205,8 +205,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Datum" Binding="{Binding Feuerwehrdienst.Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
                             <DataGridTextColumn Header="Anwesend" Binding="{Binding IsAnwesendTrue}" />
-                            <DataGridTextColumn Header="Modul-Nr." Binding="{Binding Modul.Nummer}" />
-                            <DataGridTextColumn Header="Modul" Binding="{Binding Modul.Bezeichnung}" />
+                            <DataGridTextColumn Header="Modul" Binding="{Binding ModuleFuerHistorie}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

@@ -60,6 +60,28 @@ namespace FFPlaner.Entities
             return null;
         }
 
+        public List<Modul> GetModule(Anwesenheit anwesenheit)
+        {
+            List<Modul> module = new List<Modul>();
+
+            if (anwesenheit.IsModul1 && Modul1 != null)
+            {
+                module.Add(Modul1);
+            }
+
+            if (anwesenheit.IsModul2 && Modul2 != null)
+            {
+                module.Add(Modul2);
+            }
+
+            if (anwesenheit.IsModul3 && Modul3 != null)
+            {
+                module.Add(Modul3);
+            }
+
+            return module;
+        }
+
         public List<Modul> GetAlleAngebotenenModule()
         {
             List<Modul> list = new List<Modul>();
@@ -78,11 +100,12 @@ namespace FFPlaner.Entities
         [NotMapped]
         public string? StatistikZusagen
         {
-            get {
+            get
+            {
                 int anzahlAngemeldet = Anwesenheiten.Where(a => a.IsAngemeldet == true).Count();
                 double prozentAngemeldet = DataContext.AnzahlAktivePersonen == 0 ? 0 : double.Round(anzahlAngemeldet * 100 / (double)DataContext.AnzahlAktivePersonen);
 
-                return $"{anzahlAngemeldet}/{DataContext.AnzahlAktivePersonen} ({prozentAngemeldet}%)"; 
+                return $"{anzahlAngemeldet}/{DataContext.AnzahlAktivePersonen} ({prozentAngemeldet}%)";
             }
             set { }
         }

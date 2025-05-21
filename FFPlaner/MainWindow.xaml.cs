@@ -11,7 +11,7 @@ namespace FFPlaner
 {
     public partial class MainWindow : Window
     {
-        private const string AppVersion = "0.2.4 alpha";
+        private const string AppVersion = "0.3.0 alpha";
         private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
         private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -128,9 +128,11 @@ namespace FFPlaner
             // Über alle Mitglieder iterieren
             foreach (Anwesenheit anwesenheit in anwesenheiten)
             {
-                if (anwesenheit.IsAngemeldet == true && anwesenheit.ModulNummer != null)
+                if (anwesenheit.IsAngemeldet == true)
                 {
-                    modulAuswahlAnzahl[(int)anwesenheit.ModulNummer]++;
+                    modulAuswahlAnzahl[1] += anwesenheit.IsModul1 == true ? 1 : 0;
+                    modulAuswahlAnzahl[2] += anwesenheit.IsModul2 == true ? 1 : 0;
+                    modulAuswahlAnzahl[3] += anwesenheit.IsModul3 == true ? 1 : 0;
                 }
 
                 Dictionary<Modul, DateTime> moduleZuletztGenommen = ErmittleWennModuleZuletztGenommenWurden(anwesenheit.Person);
@@ -200,12 +202,13 @@ namespace FFPlaner
             AnwesenheitListeLabel.Content = CurrentFeuerwehrdienst.Datum.ToString("dd.MM.yyyy") + " \tEmpfohlen: \t" + empfohleneModule;
             Modul1CountLabel.Content = modulAuswahlAnzahl[1];
             Modul2CountLabel.Content = modulAuswahlAnzahl[2];
-            //Modul3CountLabel.Content = modulAuswahlAnzahl[3];
+            Modul3CountLabel.Content = modulAuswahlAnzahl[3];
         }
 
         private Dictionary<Modul, DateTime> ErmittleWennModuleZuletztGenommenWurden(Person person)
         {
-            List<Anwesenheit> personAnwesenheiten = db.Anwesenheiten.Where(a => a.Person == person && a.IsAnwesend == true).ToList();
+            var tempAnwesenheiten = db.Anwesenheiten.Where(a => a.Person == person && a.IsAnwesend == true);
+            List<Anwesenheit> personAnwesenheiten = tempAnwesenheiten.ToList();
             Dictionary<Modul, DateTime> moduleZuletztGenommen = new Dictionary<Modul, DateTime>();
 
             foreach (Anwesenheit personAnwesenheit in personAnwesenheiten)
@@ -215,20 +218,18 @@ namespace FFPlaner
                     continue;
                 }
 
-                Modul? modul = personAnwesenheit.Feuerwehrdienst.GetModul(personAnwesenheit.ModulNummer);
+                List<Modul> module = personAnwesenheit.GetModule();
 
-                if (modul == null)
+                foreach (Modul modul in module)
                 {
-                    continue;
-                }
-
-                if (!moduleZuletztGenommen.ContainsKey(modul))
-                {
-                    moduleZuletztGenommen[modul] = personAnwesenheit.Feuerwehrdienst.Datum;
-                }
-                else if (moduleZuletztGenommen[modul] < personAnwesenheit.Feuerwehrdienst.Datum)
-                {
-                    moduleZuletztGenommen[modul] = personAnwesenheit.Feuerwehrdienst.Datum;
+                    if (!moduleZuletztGenommen.ContainsKey(modul))
+                    {
+                        moduleZuletztGenommen[modul] = personAnwesenheit.Feuerwehrdienst.Datum;
+                    }
+                    else if (moduleZuletztGenommen[modul] < personAnwesenheit.Feuerwehrdienst.Datum)
+                    {
+                        moduleZuletztGenommen[modul] = personAnwesenheit.Feuerwehrdienst.Datum;
+                    }
                 }
             }
 
@@ -279,7 +280,8 @@ namespace FFPlaner
             var sortierteTageFuerAngeboteneModule = tageFuerAngeboteneModule.ToList();
             sortierteTageFuerAngeboteneModule.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
-            anwesenheit.ModulNummer = CurrentFeuerwehrdienst.GetModulNumber(sortierteTageFuerAngeboteneModule[0].Key);
+            int? optimaleModulNummer = CurrentFeuerwehrdienst.GetModulNumber(sortierteTageFuerAngeboteneModule[0].Key);
+            anwesenheit.SetExklusivesModul(optimaleModulNummer);
         }
         #endregion
 
@@ -570,7 +572,7 @@ namespace FFPlaner
 
             Anwesenheit anwesenheit = (Anwesenheit)AnwesenheitGrid.Items[rowId];
 
-            anwesenheit.ModulNummer = modulNummer;
+            anwesenheit.SetExklusivesModul(modulNummer);
             db.SaveChanges();
 
 
@@ -717,15 +719,18 @@ namespace FFPlaner
         private void UpdateAppInfoTab()
         {
             string infoText = $"FFPlaner v{AppVersion}";
+
             infoText += "\n------------------------";
-            infoText += $"\nDatenbank erstellt am: {db.GetDbCreatedAt()}";
+            infoText += $"\nDatenbank erstellt am: \t{db.GetDbCreatedAt()}";
+            infoText += $"\nDatenbank-Version: \t{DbAccess.DataContext.DbVersion}";
             infoText += $"\n\nDatenbankpfad: \t\t{db.DbPath}";
             infoText += $"\nBackup-Pfad: \t\t{DbAccess.DataContext.GetBackupsDirectoryPath()}";
             infoText += $"\nStandard-Import-Pfad: \t{GetImportsBasePath()}";
-            infoText += $"\n\nWICHTIG: Die CSV-Dateien müssen UTF-8-codiert sein. In Notepad++ (kostenlos) geht dies über das Menü Codierung -> Konvertiere zu UTF-8.";
-            infoText += $"\nDateiformat Personen: \t\tEine Person pro Zeile, inkl. Eintrittsdatum: Max;Mustermann;2023-12-21";
-            infoText += $"\nDateiformat für Feuerwehrdienste: \tEin Datum pro Zeile, im Format 2025-12-31";
-            infoText += $"\nDateiformat für Module: \t\tEin Module (Nummer und Name) pro Zeile: 42;Den Sinn des Lebens finden";
+            infoText += $"\n\nWICHTIG: Die CSV-Dateien für den Import müssen UTF-8-codiert sein. In Notepad++ (kostenlos) geht dies über das Menü Codierung -> Konvertiere zu UTF-8.";
+            infoText += $"\n\nDateiformat Personen: \t\tEine Person pro Zeile, inkl. Eintrittsdatum: \tMax;Mustermann;2023-12-21";
+            infoText += $"\nDateiformat für Feuerwehrdienste: \tEin Datum pro Zeile: \t\t\t2025-12-31";
+            infoText += $"\nDateiformat für Module: \t\tEin Modul (Nummer und Name) pro Zeile: \t42 x;Den Sinn des Lebens finden";
+
             AppInfos.Text = infoText;
         }
         #endregion

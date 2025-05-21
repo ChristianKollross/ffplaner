@@ -25,14 +25,11 @@ namespace FFPlaner.Entities
 
         public bool? IsAnwesend { get; set; } = null;
 
-        public int? ModulNummer { get; set; }
+        public bool IsModul1 { get; set; } = false;
 
-        [NotMapped]
-        public Modul? Modul
-        {
-            get { return Feuerwehrdienst.GetModul(ModulNummer); }
-            set { }
-        }
+        public bool IsModul2 { get; set; } = false;
+
+        public bool IsModul3 { get; set; } = false;
 
         [NotMapped]
         public string? Bedarf1 { get; set; }
@@ -98,25 +95,23 @@ namespace FFPlaner.Entities
             set { IsAnwesend = null; }
         }
 
-        [NotMapped]
-        public bool IsModul1
+        public List<Modul> GetModule()
         {
-            get { return ModulNummer == 1; }
-            set { ModulNummer = 1; }
+            return Feuerwehrdienst.GetModule(this);
+        }
+
+        public void SetExklusivesModul(int? modulNummer)
+        {
+            IsModul1 = modulNummer == 1;
+            IsModul2 = modulNummer == 2;
+            IsModul3 = modulNummer == 3;
         }
 
         [NotMapped]
-        public bool IsModul2
+        public string ModuleFuerHistorie
         {
-            get { return ModulNummer == 2; }
-            set { ModulNummer = 2; }
-        }
-
-        [NotMapped]
-        public bool IsModul3
-        {
-            get { return ModulNummer == 3; }
-            set { ModulNummer = 3; }
+            get { return "In Arbeit"; }
+            set { }
         }
 
         [NotMapped]
