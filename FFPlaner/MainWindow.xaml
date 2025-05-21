@@ -214,7 +214,7 @@
             <TabItem Header="Module" Name="ModulTab">
                 <DataGrid Name="ModulGrid" AutoGenerateColumns="False" CellEditEnding="ModulGrid_CellEditEnding">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nr." Binding="{Binding Nummer}" Width="30" />
+                        <DataGridTextColumn Header="Nr." Binding="{Binding Nummer}" Width="45" />
                         <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Bezeichnung}" />
                         <DataGridTextColumn Header="∑ Tage letzte Teilnahme" Visibility="Hidden" />
                         <DataGridTextColumn Header="Noch nie teilgenommen" Visibility="Hidden" />

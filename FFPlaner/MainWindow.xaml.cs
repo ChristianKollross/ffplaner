@@ -6,7 +6,6 @@ using System.Windows.Input;
 
 using FFPlaner.DbAccess;
 using FFPlaner.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace FFPlaner
 {
@@ -96,6 +95,14 @@ namespace FFPlaner
 
             AnwesenheitGrid.ItemsSource = null;
             AnwesenheitGrid.ItemsSource = anwesenheiten;
+        }
+
+        private void LoadModulTab()
+        {
+            var module = db.Module.OrderBy(m => m.Nummer).ToList();
+
+            ModulGrid.ItemsSource = null;
+            ModulGrid.ItemsSource = module;
         }
 
         private void LoadHistorieTab()
@@ -273,14 +280,6 @@ namespace FFPlaner
             sortierteTageFuerAngeboteneModule.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
             anwesenheit.ModulNummer = CurrentFeuerwehrdienst.GetModulNumber(sortierteTageFuerAngeboteneModule[0].Key);
-        }
-
-        private void LoadModulTab()
-        {
-            var module = db.Module.OrderBy(m => m.Bezeichnung).ToList();
-
-            ModulGrid.ItemsSource = null;
-            ModulGrid.ItemsSource = module;
         }
         #endregion
 
@@ -595,11 +594,11 @@ namespace FFPlaner
 
         private void UpdatUebungsModuleComboBoxes()
         {
-            var modul3source = db.Module.OrderBy(m => m.Bezeichnung).ToList();
+            var modulSource = db.Module.OrderBy(m => m.Nummer).ToList();
 
-            Modul1ComboBox.ItemsSource = modul3source;
-            Modul2ComboBox.ItemsSource = modul3source;
-            Modul3ComboBox.ItemsSource = modul3source;
+            Modul1ComboBox.ItemsSource = modulSource;
+            Modul2ComboBox.ItemsSource = modulSource;
+            Modul3ComboBox.ItemsSource = modulSource;
 
             if (CurrentFeuerwehrdienst == null)
             {
