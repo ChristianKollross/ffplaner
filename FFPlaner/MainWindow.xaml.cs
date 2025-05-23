@@ -11,7 +11,7 @@ namespace FFPlaner;
 
 public partial class MainWindow : Window
 {
-    private const string AppVersion = "0.3.0 alpha";
+    private const string AppVersion = "0.3.1 alpha";
     private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
     private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -545,36 +545,37 @@ public partial class MainWindow : Window
         db.SaveChanges();
     }
 
-    private void RadioButton_Modul1_Click(object sender, RoutedEventArgs e)
+    private void CheckBox_Modul1_Click(object sender, RoutedEventArgs e)
     {
-        SelectAnwesenheitModulForPersonAndSave(1);
+        SelectAnwesenheitModulForPersonAndSave(1, sender);
     }
 
-    private void RadioButton_Modul2_Click(object sender, RoutedEventArgs e)
+    private void CheckBox_Modul2_Click(object sender, RoutedEventArgs e)
     {
-        SelectAnwesenheitModulForPersonAndSave(2);
+        SelectAnwesenheitModulForPersonAndSave(2, sender);
     }
 
-    private void RadioButton_Modul3_Click(object sender, RoutedEventArgs e)
+    private void CheckBox_Modul3_Click(object sender, RoutedEventArgs e)
     {
-        SelectAnwesenheitModulForPersonAndSave(3);
+        SelectAnwesenheitModulForPersonAndSave(3, sender);
     }
 
-    private void SelectAnwesenheitModulForPersonAndSave(int modulNummer)
+    private void SelectAnwesenheitModulForPersonAndSave(int modulNummer, object sender)
     {
         var rowId = AnwesenheitGrid.SelectedIndex;
-        var obj = AnwesenheitGrid.Items[rowId];
+        var objAnwesenheit = AnwesenheitGrid.Items[rowId];
 
-        if (obj is not Anwesenheit)
+        if (objAnwesenheit is not Anwesenheit || sender is not CheckBox)
         {
             return;
         }
 
         Anwesenheit anwesenheit = (Anwesenheit)AnwesenheitGrid.Items[rowId];
+        CheckBox checkbox = (CheckBox)sender;
 
-        anwesenheit.SetExklusivesModul(modulNummer);
+        anwesenheit.SetModul(modulNummer, checkbox.IsChecked == true);
+
         db.SaveChanges();
-
 
         if (AutoUpdateAnwesenheiten)
         {

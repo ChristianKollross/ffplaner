@@ -107,10 +107,45 @@ public class Anwesenheit
         IsModul3 = modulNummer == 3;
     }
 
+    public void SetModul(int modulNummer, bool isChosen)
+    {
+        switch (modulNummer)
+        {
+            case 1:
+                IsModul1 = isChosen;
+                break;
+            case 2:
+                IsModul2 = isChosen;
+                break;
+            case 3:
+                IsModul3 = isChosen;
+                break;
+        }
+    }
+
     [NotMapped]
     public string ModuleFuerHistorie
     {
-        get { return "In Arbeit"; }
+        get
+        {
+            List<Modul> module = Feuerwehrdienst.GetModule(this);
+
+            string result = string.Empty;
+
+            foreach (Modul modul in module)
+            {
+                if (result == string.Empty)
+                {
+                    result = modul.NummerUndBezeichnung;
+                }
+                else
+                {
+                    result += "     +     " + modul.NummerUndBezeichnung;
+                }
+            }
+
+            return result;
+        }
         set { }
     }
 
@@ -125,13 +160,6 @@ public class Anwesenheit
     public string ButtonGroupAnwesend
     {
         get { return "anwesend" + Id; }
-        set { }
-    }
-
-    [NotMapped]
-    public string ButtonGroupModule
-    {
-        get { return "modul" + Id; }
         set { }
     }
 }

@@ -18,7 +18,7 @@ public class Modul
     public string Nummer { get; set; } = string.Empty;
 
     [NotMapped]
-    public string? NummerUndBezeichnung
+    public string NummerUndBezeichnung
     {
         get { return "(" + Nummer + ") " + Bezeichnung; }
         set { }

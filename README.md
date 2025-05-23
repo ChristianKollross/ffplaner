@@ -2,8 +2,6 @@
 
 **Windows-Desktopanwendung zur Planung von Übungsmodulen in der Freiwilligen Feuerwehr**
 
-*WICHTIG: Aktuell werden noch keine Datenbank-Migrationen angeboten, Daten müssen also ggf. mehrfach eingegeben werden!*
-
 ## Anleitung
 
 - (Übungs-)Module können durch Doppelklick in die leere Zeile in der Module-Liste oder per CSV-Import hinzugefügt werden. (Format siehe Info-Tab.)

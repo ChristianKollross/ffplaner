@@ -127,21 +127,21 @@
                             <DataGridTemplateColumn Header="Modul 1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <RadioButton Name="RadioButtonModul1" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul1_Click" />
+                                        <CheckBox Name="CheckBoxModul1" IsThreeState="False" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul1_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Modul 2">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <RadioButton Name="RadioButtonModul2" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul2_Click" />
+                                        <CheckBox Name="CheckBoxModul2" IsThreeState="False" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul2_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Modul 3">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <RadioButton Name="RadioButtonModul3" GroupName="{Binding ButtonGroupModule}" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButton_Modul3_Click" />
+                                        <CheckBox Name="CheckBoxModul3" IsThreeState="False" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul3_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -205,7 +205,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Datum" Binding="{Binding Feuerwehrdienst.Datum, StringFormat=\{0:dd.MM.yyyy\}}" />
                             <DataGridTextColumn Header="Anwesend" Binding="{Binding IsAnwesendTrue}" />
-                            <DataGridTextColumn Header="Modul" Binding="{Binding ModuleFuerHistorie}" />
+                            <DataGridTextColumn Header="Modul(e)" Binding="{Binding ModuleFuerHistorie}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
