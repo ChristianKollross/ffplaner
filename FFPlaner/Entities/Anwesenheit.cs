@@ -64,14 +64,22 @@ public class Anwesenheit
     public bool IsAngemeldetFalse
     {
         get { return IsAngemeldet == false; }
-        set { IsAngemeldet = false; }
+        set
+        {
+            IsAngemeldet = false;
+            ClearModules();
+        }
     }
 
     [NotMapped]
     public bool IsAngemeldetNull
     {
         get { return IsAngemeldet == null; }
-        set { IsAngemeldet = null; }
+        set
+        {
+            IsAngemeldet = null;
+            ClearModules();
+        }
     }
 
     [NotMapped]
@@ -123,6 +131,13 @@ public class Anwesenheit
         }
     }
 
+    public void ClearModules()
+    {
+        IsModul1 = false;
+        IsModul2 = false;
+        IsModul3 = false;
+    }
+
     [NotMapped]
     public string ModuleFuerHistorie
     {
@@ -160,6 +175,13 @@ public class Anwesenheit
     public string ButtonGroupAnwesend
     {
         get { return "anwesend" + Id; }
+        set { }
+    }
+
+    [NotMapped]
+    public bool IsSelectingModulesEnabled
+    {
+        get { return IsAngemeldet == true; }
         set { }
     }
 }

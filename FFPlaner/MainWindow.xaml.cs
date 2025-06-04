@@ -11,7 +11,7 @@ namespace FFPlaner;
 
 public partial class MainWindow : Window
 {
-    private const string AppVersion = "0.3.1 alpha";
+    private const string AppVersion = "0.3.2 alpha";
     private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
     private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -510,8 +510,15 @@ public partial class MainWindow : Window
 
     private void RadioButtonAngemeldetNull_Click(object sender, RoutedEventArgs e)
     {
-        GetSelectedAnwesenheit().IsAngemeldet = null;
+        Anwesenheit anwesenheit = GetSelectedAnwesenheit();
+        anwesenheit.IsAngemeldet = null;
+        anwesenheit.ClearModules();
         db.SaveChanges();
+
+        if (AutoUpdateAnwesenheiten)
+        {
+            LoadAnwesenheitTab();
+        }
     }
 
     private void RadioButtonAngemeldetFalse_Click(object sender, RoutedEventArgs e)
@@ -519,6 +526,7 @@ public partial class MainWindow : Window
         Anwesenheit anwesenheit = GetSelectedAnwesenheit();
         anwesenheit.IsAngemeldet = false;
         anwesenheit.IsAnwesend = false;
+        anwesenheit.ClearModules();
         db.SaveChanges();
 
         if (AutoUpdateAnwesenheiten)

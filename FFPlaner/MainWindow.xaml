@@ -88,6 +88,11 @@
                                         <RadioButton Name="RadioButtonAngemeldetTrue" GroupName="{Binding ButtonGroupAngemeldet}" IsChecked="{Binding IsAngemeldetTrue, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAngemeldetTrue_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="?">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -102,6 +107,11 @@
                                         <RadioButton Name="RadioButtonAngemeldetFalse" GroupName="{Binding ButtonGroupAngemeldet}" IsChecked="{Binding IsAngemeldetFalse, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="RadioButtonAngemeldetFalse_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="Pink" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Anwesend">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -127,23 +137,38 @@
                             <DataGridTemplateColumn Header="Modul 1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul1" IsThreeState="False" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul1_Click" />
+                                        <CheckBox Name="CheckBoxModul1" IsThreeState="False" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul1_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Modul 2">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul2" IsThreeState="False" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul2_Click" />
+                                        <CheckBox Name="CheckBoxModul2" IsThreeState="False" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul2_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Modul 3">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul3" IsThreeState="False" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul3_Click" />
+                                        <CheckBox Name="CheckBoxModul3" IsThreeState="False" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul3_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Bedarf 1" Binding="{Binding Bedarf1}" />
                             <DataGridTextColumn Header="Bedarf 2" Binding="{Binding Bedarf2}" />
