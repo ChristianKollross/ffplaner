@@ -6,12 +6,13 @@ using System.Windows.Input;
 
 using FFPlaner.DbAccess;
 using FFPlaner.Entities;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace FFPlaner;
 
 public partial class MainWindow : Window
 {
-    private const string AppVersion = "0.3.2 alpha";
     private const double HalberBildschirmAbSeitenverhaeltnis = 1.8; // Ist der Bildschirm mindestens um diesen Faktor breiter als hoch, so wird das Fenster nur etwa auf die linke Bildschrimhälfte skaliert.
 
     private const int wertUnbelegterModuleInTagen = 1000; // Wurde ein Modul noch nicht belegt, wird diese Anzahl an Tagen ersatzweise angenommen.
@@ -750,7 +751,10 @@ public partial class MainWindow : Window
     #region Info-Funktionen
     private void UpdateAppInfoTab()
     {
-        string infoText = $"FFPlaner v{AppVersion}";
+        var assembly = Assembly.GetExecutingAssembly();
+        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+        var fileVersion = fileVersionInfo.FileVersion;
+        string infoText = $"FFPlaner v{fileVersionInfo.FileVersion}-beta";
 
         infoText += "\n------------------------";
         infoText += $"\nDatenbank erstellt am: \t{db.GetDbCreatedAt()}";

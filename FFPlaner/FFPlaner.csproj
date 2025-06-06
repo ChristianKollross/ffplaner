@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+	<Authors>Christian Kollross</Authors>
+	<VersionPrefix>0.4.0</VersionPrefix>
+	<VersionSuffix>beta</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
