@@ -179,9 +179,16 @@ public class Anwesenheit
     }
 
     [NotMapped]
-    public bool IsSelectingModulesEnabled
+    public bool IsSelectingModuleEnabled
     {
-        get { return IsAngemeldet == true; }
+        get { return IsAnwesend == true; }
+        set { }
+    }
+
+    [NotMapped]
+    public bool IsSelectingModul3Enabled
+    {
+        get { return IsAnwesend == true && Feuerwehrdienst.Modul3 != null;  }
         set { }
     }
 }

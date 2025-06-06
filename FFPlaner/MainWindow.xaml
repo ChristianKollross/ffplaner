@@ -137,7 +137,7 @@
                             <DataGridTemplateColumn Header="Modul 1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul1" IsThreeState="False" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul1_Click" />
+                                        <CheckBox Name="CheckBoxModul1" IsThreeState="False" IsChecked="{Binding IsModul1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModuleEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul1_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellStyle>
@@ -149,7 +149,7 @@
                             <DataGridTemplateColumn Header="Modul 2">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul2" IsThreeState="False" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul2_Click" />
+                                        <CheckBox Name="CheckBoxModul2" IsThreeState="False" IsChecked="{Binding IsModul2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModuleEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul2_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellStyle>
@@ -161,7 +161,7 @@
                             <DataGridTemplateColumn Header="Modul 3">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Name="CheckBoxModul3" IsThreeState="False" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModulesEnabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul3_Click" />
+                                        <CheckBox Name="CheckBoxModul3" IsThreeState="False" IsChecked="{Binding IsModul3, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnTargetUpdated=True}" IsEnabled="{Binding IsSelectingModul3Enabled}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Modul3_Click" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellStyle>

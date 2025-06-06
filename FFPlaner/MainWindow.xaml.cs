@@ -471,6 +471,7 @@ public partial class MainWindow : Window
     {
         CurrentFeuerwehrdienst.Modul3 = GetSelectedModul(sender);
         db.SaveChanges();
+        LoadAnwesenheitTab();
     }
 
     private Modul? GetSelectedModul(object sender)
@@ -512,6 +513,7 @@ public partial class MainWindow : Window
     {
         Anwesenheit anwesenheit = GetSelectedAnwesenheit();
         anwesenheit.IsAngemeldet = null;
+        anwesenheit.IsAnwesend = null;
         anwesenheit.ClearModules();
         db.SaveChanges();
 
@@ -539,18 +541,33 @@ public partial class MainWindow : Window
     {
         GetSelectedAnwesenheit().IsAnwesend = false;
         db.SaveChanges();
+
+        if (AutoUpdateAnwesenheiten)
+        {
+            LoadAnwesenheitTab();
+        }
     }
 
     private void RadioButtonAnwesendNull_Click(object sender, RoutedEventArgs e)
     {
         GetSelectedAnwesenheit().IsAnwesend = null;
         db.SaveChanges();
+
+        if (AutoUpdateAnwesenheiten)
+        {
+            LoadAnwesenheitTab();
+        }
     }
 
     private void RadioButtonAnwesendTrue_Click(object sender, RoutedEventArgs e)
     {
         GetSelectedAnwesenheit().IsAnwesend = true;
         db.SaveChanges();
+
+        if (AutoUpdateAnwesenheiten)
+        {
+            LoadAnwesenheitTab();
+        }
     }
 
     private void CheckBox_Modul1_Click(object sender, RoutedEventArgs e)
@@ -595,6 +612,12 @@ public partial class MainWindow : Window
     {
         Modul3ComboBox.SelectedItem = null;
         CurrentFeuerwehrdienst.Modul3 = null;
+
+        foreach(Anwesenheit anwesenheit in CurrentFeuerwehrdienst.Anwesenheiten)
+        {
+            anwesenheit.IsModul3 = false;
+        }
+
         db.SaveChanges();
 
         if (AutoUpdateAnwesenheiten)
